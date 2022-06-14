@@ -76,6 +76,15 @@ class Participant:
         self.car_tireDeg += tire_deg
         self.car_fuelMass -= fuel_con
 
+        #! this must lead to DNF!
+        if self.car_tireDeg >= 100:
+            #print("too high!")
+            self.car_tireDeg = 100
+
+        #! this must lead to DNF!
+        if self.car_fuelMass < 1:
+            #print("too high!")
+            self.car_fuelMass = 1
 
     #
     # * this functions decides if the participant is pitting

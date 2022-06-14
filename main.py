@@ -47,7 +47,6 @@ def simulate():
             # Do action and get result
             next_state, reward, done, _ = env.step(action)
             total_reward += reward
-            
 
 
             # Get correspond q value from state, action pair
