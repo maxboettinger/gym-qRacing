@@ -1,0 +1,47 @@
+QLEARNING:
+  OBSERVATION_FIELDS: #? needs some pip packages: from gym import spaces
+    - race_position
+    - car_tireDeg
+  REWARD_FUNCTION: # TODO: somehow store a function to use
+    - none
+  ENV_EPISODES: 1
+  ENV_MAXTRY: 1000
+  ENV_EPSILON: 1
+  ENV_EPSILONDECAY: 0.999
+  ENV_LEARNINGRATE: 0.1
+  ENV_GAMMA: 0.6
+
+RACESIMULATION:
+  RACE_LENGTH: 7
+  RACE_GRIDSIZE: 15
+  RACE_INITFUELMASS: 50.0
+
+MODELS:
+  PITSTOP:
+    TIMELOSS_TRAVELIN: 20.0
+    TIMELOSS_TRAVELOUT: 35.0
+    STANDINGTIME_FREE: 15.0
+    STANDINGTIME_REGULATION: # TODO: integrate mandatory times from regulation
+      - none
+
+  OVERTAKING:
+    OVERTAKE_SUC_CAR1: 0.5
+    OVERTAKE_SUC_CAR2: 1.5
+    OVERTAKE_UNS_CAR1: 3
+    OVERTAKE_UNS_CAR2: 1
+
+  RACESTART:
+    TIMELOSS_BASE: 5.0
+
+LOGGING:
+  ENVIRONMENT: true # logs for all environment events
+  EPISODE_INTERVAL: 1 # after how many episodes the agent results should be shown (recommended 50)
+
+  SIMULATION:
+    LAP: true
+    GRID_POSITIONS: true # logging a table of lap+sector timings after each lap
+    GRID_GENERATION: true # logging a table of the grid after generation
+    POSITION_CHANGES: true
+
+  AGENT:
+    ACTIONS: true # log the action taken by the agent and the calculated reward after each lap
