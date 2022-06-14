@@ -1,3 +1,5 @@
+[![PyPI version](https://badge.fury.io/py/gym-qRacing.svg)](https://pypi.org/project/gym-qRacing/)
+
 # Deep Q-Racing
 
 ### Improving race strategy decision-making in motorsports through self-learning deep neural networks
