@@ -3,17 +3,22 @@ import random
 from rich import print
 
 class model_overtaking():
+    def __init__(self, config):
+        self.config = config
+
+
     #
     # * this function calculates possible position changes
     # ? should be called after each sector!
     # TODO: implement the actual logic + algorithm
     #
     @staticmethod
-    def calc_positionChanges(sector, race_grid):
+    def calc_positionChanges(sector, race_grid, config):
         #
         # ? changes are not possible if active Code60 phase! This has to be accounted for!
 
-        print("\nSimulating sector {}".format(sector.sector_id))
+        if config['LOGGING']['SIMULATION']['SECTOR']:
+            print("\nSimulating sector {}".format(sector.sector_id))
 
         # compare race_time between 2 participants and change position in race_grid list
         # while position_changes (in this loop) > 0
@@ -47,7 +52,8 @@ class model_overtaking():
                     race_grid[idx_participant].race_position = idx_participant+1
 
                     # logging
-                    print("{} has overtaken {} for position #{}".format(participant.participant_id, race_grid[idx_participant].participant_id, idx_participant))
+                    if config['LOGGING']['SIMULATION']['OVERTAKES']:
+                        print("{} has overtaken {} for position #{}".format(participant.participant_id, race_grid[idx_participant].participant_id, idx_participant))
 
 
 

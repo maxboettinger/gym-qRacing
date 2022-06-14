@@ -19,7 +19,7 @@ def simulate():
 
     #* initializing variables for Q-Learning
     episode_counter = 0 
-    env = gym.make("qRacing-v0", config=config)
+    env = gym.make("qRacing-base-v0", config=config)
     num_box = tuple(((env.observation_space.high[0], env.observation_space.high[1]) + np.ones(env.observation_space.shape)).astype(int))
     q_table = np.zeros(num_box + (env.action_space.n,))
 
@@ -69,8 +69,9 @@ def simulate():
                 # check if logging is enabled
                 if episode_counter % config["LOGGING"]['EPISODE_INTERVAL'] == 0:
                     # log results to output
-                    Helper.global_logging(config["LOGGING"], "ENVIRONMENT", "\n[bold blue]Agent results of episode #{}[/bold blue]".format(episode+1))
-                    print("Position: %i \nReward: %f\n" % (state[0], total_reward))
+                    if config['LOGGING']['AGENT']['RESULTS']:
+                        Helper.global_logging(config["LOGGING"], "ENVIRONMENT", "\n[bold blue]Agent results of episode #{}[/bold blue]".format(episode+1))
+                        print("Position: %i \nReward: %f\n" % (state[0], total_reward))
 
                     # save results to logging list
                     log_loss.append([episode_counter, t_loss])

@@ -144,9 +144,11 @@ class RaceSimulation(gym.Env):
         if self.race_lap > self.race_length or self.agent_car.car.is_retired:
             Helper.global_logging(self.config['LOGGING'], "ENVIRONMENT", "[bold red]Simulation finished after {} lap(s)[/bold red]\n".format(self.race_lap-1))
             
-            for idx_sector, participant in enumerate(self.race_grid):
-                with open('./logs/'+participant.participant_id+'.json', 'w') as fout:
-                    json.dump(participant.log, fout)
+            # if enabled, dump JSON logs after each episode
+            if self.config['LOGGING']['DUMP']:
+                for idx_sector, participant in enumerate(self.race_grid):
+                    with open('./logs/'+participant.participant_id+'.json', 'w') as fout:
+                        json.dump(participant.log, fout)
             return True
         
         # * otherwise, keep simulating the race

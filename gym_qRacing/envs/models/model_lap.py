@@ -74,7 +74,7 @@ class model_lap():
             # TODO: calculate new race positions
             # ! this is not implemented yet!!!
             # ? not possible if active code60 phase!
-            race_grid = model_overtaking.calc_positionChanges(sector, race_grid)
+            race_grid = model_overtaking.calc_positionChanges(sector, race_grid, self.config)
                     
 
             # * determine pit stops

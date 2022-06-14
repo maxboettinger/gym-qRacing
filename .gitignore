@@ -1,2 +1,4 @@
 *.egg-info
 dist
+
+gym_qRacing/**/__pycache__
