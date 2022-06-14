@@ -40,3 +40,10 @@ Keywords: race simulation, race strategy, Reinforcement Learning
 </details>
 
 <br>
+
+## Build
+
+```
+python -m build
+twine upload dist/\*
+```
