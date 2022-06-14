@@ -1,9 +1,10 @@
 from ..functions import Helper, Logging
 from ..models.model_car import model_car
 from ..models.model_overtaking import model_overtaking
+from ..models.model_pitstop import Model_PitStop
 from ..classes import Track
 
-from mlflow import log_metric, log_param
+
 
 class model_lap():
     def __init__(self, config):
@@ -28,6 +29,10 @@ class model_lap():
             # * iterating over all participants in this sector
             # TODO: apply models to participant (overtakes, failures/accidents etc.)
             for idx_participant, participant in enumerate(race_grid):     
+                #* only do this simulation if the participant isnt retired
+                if participant.is_retired:
+                    print(participant.participant_id, " retired!!!")
+                    continue
 
                 #* if its the last sector, decide if participant is pitting
                 if (idx_sector+1) == len(self.race_track.sectors):
@@ -54,8 +59,9 @@ class model_lap():
                 # update wear 
                 participant.update_wear(tireDeg, fuelCon) 
 
-
-                #log_metric(participant.participant_id+"_"+sector.sector_id, sector_time)
+                #! simulate pitstop
+                if is_pitting:
+                    Model_PitStop.sim_pitStop(participant, participant.car_pitStops[len(participant.car_pitStops)-1][1])
 
                 # * add information to participant log dict
                 participant.update_log_sector({
@@ -124,7 +130,7 @@ class model_lap():
         if is_pitting:
 
             # check if its the inlap or outlap of the pitstop
-            if race_lap == participant.car_pitStops[len(participant.car_pitStops)-1]:
+            if race_lap == participant.car_pitStops[len(participant.car_pitStops)-1][0]:
                 # its the inlap, apply timeLoss_travelIn and standingTime
                 penalty_pitStop = self.config['MODELS']['PITSTOP']['TIMELOSS_TRAVELIN'] + self.config['MODELS']['PITSTOP']['STANDINGTIME_FREE']
             else:
@@ -138,6 +144,14 @@ class model_lap():
         # ? Tlap = Σ (Tsector base + Ptire deg + Pfuel mass) + Ptraffic + Ppit stop + Prace start
         sector_time = (sector.base_time + penalty_fuelMass + penalty_tireDeg) + penalty_raceStart + penalty_trafficImpairment + penalty_pitStop
 
+        if participant.participant_id != "Agent":
+            sector_time += 0.0
+
+        """
+        if participant.participant_id == "Agent" and sector.sector_id == "S5":
+            print("penalty_pitStop ", penalty_pitStop)
+            print("sector_time ", sector_time)
+        """
 
         return sector_time
 

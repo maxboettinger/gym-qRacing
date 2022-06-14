@@ -90,7 +90,7 @@ class RaceSimulation(gym.Env):
         
         # * 1 - perform the action chosen by the agent
         # ? should this really be done before everything else?
-        agent_action = self.agent_car.take_action(action)
+        agent_action = self.agent_car.take_action(action, self.race_lap)
 
 
         # * 2 - simulating laps for all participants      
@@ -133,7 +133,7 @@ class RaceSimulation(gym.Env):
         # ? currently "race_position" and "tire age"
         #return (int(self.agent_car.car[self.config['observation_fields'][0]]), int(self.agent_car.car[self.config['observation_fields'][1]]))
         
-        return (int(self.agent_car.car.race_position), int(self.agent_car.car.car_tireDeg))
+        return (int(self.agent_car.car.race_position), int(self.agent_car.car.car_fuelMass))
 
 
     #
@@ -143,7 +143,8 @@ class RaceSimulation(gym.Env):
         # * check if all laps have been simulated
         if self.race_lap > self.race_length or self.agent_car.car.is_retired:
             Helper.global_logging(self.config['LOGGING'], "ENVIRONMENT", "[bold red]Simulation finished after {} lap(s)[/bold red]\n".format(self.race_lap-1))
-            
+            print("Agent pitstop count: ", len(self.agent_car.car.car_pitStops))
+
             # if enabled, dump JSON logs after each episode
             if self.config['LOGGING']['DUMP']:
                 for idx_sector, participant in enumerate(self.race_grid):

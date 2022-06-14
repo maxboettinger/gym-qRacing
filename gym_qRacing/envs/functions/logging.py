@@ -22,6 +22,7 @@ class Logging:
         table.add_column("S5", justify="right")
         table.add_column("FuelMass", justify="right")
         table.add_column("TireDeg", justify="right")
+        table.add_column("PitStops", justify="right")
         
 
 
@@ -47,6 +48,7 @@ class Logging:
                 "{:10.2f}s".format(participant.log['laps'][race_lap]['sectors']['S5']['sector_time']),
                 str(f'{participant.car_fuelMass:10.2f}l (-{wear_fuelCon:1.2f}l)'),
                 str(f'{participant.car_tireDeg:10.2f}% (-{wear_tireDeg:1.2f}%)'),
+                "{:10.0f}".format(len(participant.car_pitStops)),
             )
 
 

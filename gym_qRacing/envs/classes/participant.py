@@ -76,23 +76,41 @@ class Participant:
         self.car_tireDeg += tire_deg
         self.car_fuelMass -= fuel_con
 
-        #! this must lead to DNF!
+        # handling retirement due to high wear
         if self.car_tireDeg >= 100:
-            #print("too high!")
-            self.car_tireDeg = 100
+            self.is_retired = True
+            self.race_time = 9999999 # this puts the participant in last position
+            print(self.participant_id, " retired due to tireDeg!")
+            self.car_tireDeg = 100 # resetting to avoid q_table bound exception
 
-        #! this must lead to DNF!
+        # handling retirement due to high wear
         if self.car_fuelMass < 1:
-            #print("too high!")
-            self.car_fuelMass = 1
+            self.is_retired = True
+            self.race_time = 9999999 # this puts the participant in last position
+            print(self.participant_id, " retired due to fuelMass! ", fuel_con)
+            self.car_fuelMass = 1 # resetting to avoid q_table bound exception
 
     #
     # * this functions decides if the participant is pitting
     #
     def decide_pitStop(self, current_raceLap):
-        if self.car_fuelMass < 30 or self.car_tireDeg > 80:
-            self.car_pitStops.append(current_raceLap)
+        if self.participant_id == "Agent" and len(self.car_pitStops) > 0:
+            if current_raceLap == self.car_pitStops[len(self.car_pitStops)-1][0]:
+                return True
+        elif self.participant_id == "Agent" and len(self.car_pitStops) > 0:
+            if current_raceLap-1 == self.car_pitStops[len(self.car_pitStops)-1][0]:
+                #print("outlap in lap #", current_raceLap)
+                return True
+
+        if self.participant_id != "Agent" and self.car_fuelMass < 30 or self.car_tireDeg > 80:
+            #print("pitstop in lap #", current_raceLap)
+            self.car_pitStops.append([current_raceLap, 8])
+
             return True
+        elif self.participant_id != "Agent" and len(self.car_pitStops) > 0:
+            if current_raceLap-1 == self.car_pitStops[len(self.car_pitStops)-1][0]:
+                #print("outlap in lap #", current_raceLap)
+                return True
         else:
             return False
 

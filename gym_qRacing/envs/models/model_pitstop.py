@@ -8,6 +8,8 @@ class Model_PitStop(object):
         # ! this is not implemented yet and provides a empty list
         self.standingTime_regulation = config['MODELS']['PITSTOP']['STANDINGTIME_REGULATION']
 
+        self.init_fuelMass = config['RACESIMULATION']['RACE_INITFUELMASS']
+
 
 
     @staticmethod
@@ -24,5 +26,10 @@ class Model_PitStop(object):
 
 
         # return timeLoss_pitStop
+
+        #print(participant.participant_id, " is pitting!")
+
+        participant.car_tireDeg = 0
+        participant.car_fuelMass = action * 10.0 #! this should not be static!!!!
         return False 
 
