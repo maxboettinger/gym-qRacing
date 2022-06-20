@@ -1,8 +1,5 @@
 #! configure environment
 QLEARNING:
-  OBSERVATION_FIELDS: #? needs some pip packages: from gym import spaces
-    - race_position
-    - car_tireDeg
   REWARD_FUNCTION: # TODO: somehow store a function to use
     - none
   ENV_EPISODES: 1
@@ -11,6 +8,15 @@ QLEARNING:
   ENV_EPSILONDECAY: 0.999
   ENV_LEARNINGRATE: 0.1
   ENV_GAMMA: 0.6
+  ENV_OBSERVATION_FIELDS:
+    - race_position
+    - car_fuelMass
+  ENV_OBSERVATION_LOW:
+    - 1
+    - 0
+  ENV_OBSERVATION_HIGH:
+    - 15
+    - 100
 
 #! configure race simulation
 RACESIMULATION:

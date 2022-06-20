@@ -13,10 +13,9 @@ class RaceSimulation(gym.Env):
         #* Global config
         self.config = config
 
-        #* Observation space
-        # TODO: use the observation_space parameters from the main config -> self.observation_space = config['observation_space']
-        self.low = np.array([1, 0], dtype=np.int)
-        self.high = np.array([config['RACESIMULATION']['RACE_GRIDSIZE'], 100], dtype=np.int)
+        #* Observation space (from config .yaml)
+        self.low = np.array([config['QLEARNING']['ENV_OBSERVATION_LOW'][0], config['QLEARNING']['ENV_OBSERVATION_LOW'][1]], dtype=np.int)
+        self.high = np.array([config['QLEARNING']['ENV_OBSERVATION_HIGH'][0], config['QLEARNING']['ENV_OBSERVATION_HIGH'][1]], dtype=np.int)
         self.observation_space = spaces.Box(self.low, self.high, dtype=np.int)
         
         #* Action space
@@ -106,6 +105,7 @@ class RaceSimulation(gym.Env):
                 "position": self.agent_car.car.race_position,
                 "pitStop_cnt": len(self.agent_car.car.car_pitStops)
             }
+            # TODO: add "grid" field containing all participant.log values!
         }
 
         # increasing lap count
@@ -124,13 +124,9 @@ class RaceSimulation(gym.Env):
     #
     # * this function creates the observation object for the agent
     #
-    # TODO: use observation fields defined in global config
     def observe(self):
-        # * read and return observation
-        # ? currently "race_position" and "tire age"
-        #return (int(self.agent_car.car[self.config['observation_fields'][0]]), int(self.agent_car.car[self.config['observation_fields'][1]]))
-        
-        return (int(self.agent_car.car.race_position), int(self.agent_car.car.car_fuelMass))
+        # * read and return observation (defined in config.yaml)
+        return (int(getattr(self.agent_car.car, self.config['QLEARNING']['ENV_OBSERVATION_FIELDS'][0])), int(getattr(self.agent_car.car, self.config['QLEARNING']['ENV_OBSERVATION_FIELDS'][1])))
 
 
     #
