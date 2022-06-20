@@ -1,21 +1,24 @@
+#! configure environment
 QLEARNING:
   OBSERVATION_FIELDS: #? needs some pip packages: from gym import spaces
     - race_position
     - car_tireDeg
   REWARD_FUNCTION: # TODO: somehow store a function to use
     - none
-  ENV_EPISODES: 9999
+  ENV_EPISODES: 1
   ENV_MAXTRY: 1000
   ENV_EPSILON: 1
   ENV_EPSILONDECAY: 0.999
   ENV_LEARNINGRATE: 0.1
   ENV_GAMMA: 0.6
 
+#! configure race simulation
 RACESIMULATION:
-  RACE_LENGTH: 28
+  RACE_LENGTH: 10
   RACE_GRIDSIZE: 15
   RACE_INITFUELMASS: 50.0
 
+#! configure models
 MODELS:
   PITSTOP:
     TIMELOSS_TRAVELIN: 30.0
@@ -33,11 +36,13 @@ MODELS:
   RACESTART:
     TIMELOSS_BASE: 5.0
 
+#! configure logging
 LOGGING:
   ENVIRONMENT: false # logs for all environment events (starting episode, finished episode)
   EPISODE_INTERVAL: 1 # after how many episodes the agent results should be shown (recommended 50)
 
   SIMULATION:
+    DONE: false # logs that the done() function returned true
     LAP: false # this logs the currently simulated lap count before each lap simulation
     SECTOR: false # this logs the currently simulated sector count before each sector simulation
     GRID_POSITIONS: false # logging a table of lap+sector timings after each lap
@@ -47,6 +52,6 @@ LOGGING:
 
   AGENT:
     ACTIONS: false # log the action taken by the agent and the calculated reward after each lap
-    RESULTS: true # this displays the agents results (race_position, total_reward) after each episode
+    RESULTS: false # this displays the agents results (race_position, total_reward) after each episode
 
   DUMP: false # this will dump verbose logs of all participants after each episode

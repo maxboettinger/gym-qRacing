@@ -83,45 +83,42 @@ class RaceSimulation(gym.Env):
     #
     # * this function simulates each time step
     #
-    def step(self, action):
-        # logging
-        Helper.global_logging(self.config['LOGGING']['SIMULATION'], "LAP", "\nSimulating Lap [bold]#{}[/bold]".format(self.race_lap))
-
-        
+    def step(self, action):       
         # * 1 - perform the action chosen by the agent
-        # ? should this really be done before everything else?
         agent_action = self.agent_car.take_action(action, self.race_lap)
-
 
         # * 2 - simulating laps for all participants      
         self.model_lap.simulate_lap(self.race_lap, self.race_grid)
-
-
-        # logging table of all participant timings for this lap
-        if self.config['LOGGING']['SIMULATION']['GRID_POSITIONS']:
-            Logging.log_lap_timings(self.race_lap, self.race_grid)
-
-
-        # increasing lap count
-        # ? is this the right place??
-        self.race_lap += 1
-
 
         # * 3 - Generate required return values
         obs = self.observe() # getting current state of environment
         reward = self.agent_car.calc_reward() # calculating reward based on last action
 
-
-        # logging agent action
-        Helper.global_logging(self.config['LOGGING']['AGENT'], "ACTIONS", "[yellow]Agent took action {}, got {} in reward and moved {} positions[/yellow]\n".format(agent_action, reward, (self.agent_car.car.lastLap_position - self.agent_car.car.race_position) ))
-
-
-        # checking if episode is terminal
+        # * 4 - checking if episode is terminal
         done = self.is_done() 
 
+        # creating info dict 
+        info = {
+            "done": done,
+            "race_lap": self.race_lap,
+            "agent": {
+                "action": action,
+                "position": self.agent_car.car.race_position,
+                "pitStop_cnt": len(self.agent_car.car.car_pitStops)
+            }
+        }
+
+        # increasing lap count
+        self.race_lap += 1
+
+        # logging
+        Helper.global_logging(self.config['LOGGING']['SIMULATION'], "LAP", "\nSimulating Lap [bold]#{}[/bold]".format(self.race_lap))
+        Helper.global_logging(self.config['LOGGING']['AGENT'], "ACTIONS", "[yellow]Agent took action {}, got {} in reward and moved {} positions[/yellow]\n".format(agent_action, reward, (self.agent_car.car.lastLap_position - self.agent_car.car.race_position) ))
+        if self.config['LOGGING']['SIMULATION']['GRID_POSITIONS']: # logging table of all participant timings for this lap
+            Logging.log_lap_timings(self.race_lap, self.race_grid)
 
         # * returning required fields for this step
-        return obs, reward, done, {}
+        return obs, reward, done, info
 
 
     #
@@ -142,8 +139,7 @@ class RaceSimulation(gym.Env):
     def is_done(self):
         # * check if all laps have been simulated
         if self.race_lap > self.race_length or self.agent_car.car.is_retired:
-            Helper.global_logging(self.config['LOGGING'], "ENVIRONMENT", "[bold red]Simulation finished after {} lap(s)[/bold red]\n".format(self.race_lap-1))
-            print("Agent pitstop count: ", len(self.agent_car.car.car_pitStops))
+            Helper.global_logging(self.config['LOGGING']['SIMULATION'], "DONE", "[bold red]Simulation finished after {} lap(s)[/bold red]".format(self.race_lap-1))
 
             # if enabled, dump JSON logs after each episode
             if self.config['LOGGING']['DUMP']:
