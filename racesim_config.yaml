@@ -20,15 +20,15 @@ QLEARNING:
 
 #! configure race simulation
 RACESIMULATION:
-  RACE_LENGTH: 10
+  RACE_LENGTH: 6
   RACE_GRIDSIZE: 15
   RACE_INITFUELMASS: 50.0
 
 #! configure models
 MODELS:
   PITSTOP:
-    TIMELOSS_TRAVELIN: 30.0
-    TIMELOSS_TRAVELOUT: 45.0
+    TIMELOSS_TRAVELIN: 1030.0
+    TIMELOSS_TRAVELOUT: 1045.0
     STANDINGTIME_FREE: 25.0
     STANDINGTIME_REGULATION: # TODO: integrate mandatory times from regulation
       - none

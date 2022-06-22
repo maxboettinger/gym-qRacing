@@ -31,14 +31,11 @@ class model_lap():
             for idx_participant, participant in enumerate(race_grid):     
                 #* only do this simulation if the participant isnt retired
                 if participant.is_retired:
-                    print(participant.participant_id, " retired!!!")
+                    #print(participant.participant_id, " retired!!!")
                     continue
 
                 #* if its the last sector, decide if participant is pitting
-                if (idx_sector+1) == len(self.race_track.sectors):
-                    is_pitting = participant.decide_pitStop(race_lap)
-                else:
-                    is_pitting = False
+                is_pitting = participant.decide_pitStop(race_lap)
 
                 #* if its the first sector, check if participant was pitting last lap
                 # ! implement time penalty for 1st sector after pitting!
@@ -127,17 +124,18 @@ class model_lap():
         # pit stops
         # TODO: use real pit stop model!!!
         # ? only for last sector (+ first of following lap) and only, if participant chose to stop!
-        if is_pitting:
+        penalty_pitStop = 0
 
+        if is_pitting:
             # check if its the inlap or outlap of the pitstop
-            if race_lap == participant.car_pitStops[len(participant.car_pitStops)-1][0]:
+            if sector.sector_id == "S5" and race_lap == participant.car_pitStops[len(participant.car_pitStops)-1][0]:
                 # its the inlap, apply timeLoss_travelIn and standingTime
                 penalty_pitStop = self.config['MODELS']['PITSTOP']['TIMELOSS_TRAVELIN'] + self.config['MODELS']['PITSTOP']['STANDINGTIME_FREE']
-            else:
+                print("s5")
+            elif sector.sector_id == "S1" and race_lap == (participant.car_pitStops[len(participant.car_pitStops)-1][0]+1):
                 # its the outlap, only apply travelOutTime
                 penalty_pitStop = self.config['MODELS']['PITSTOP']['TIMELOSS_TRAVELOUT']
-        else:
-            penalty_pitStop = 0
+                print("s1")
 
 
         #* the actual sector time calculation
@@ -146,12 +144,6 @@ class model_lap():
 
         if participant.participant_id != "Agent":
             sector_time += 0.0
-
-        """
-        if participant.participant_id == "Agent" and sector.sector_id == "S5":
-            print("penalty_pitStop ", penalty_pitStop)
-            print("sector_time ", sector_time)
-        """
 
         return sector_time
 

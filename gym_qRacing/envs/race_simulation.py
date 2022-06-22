@@ -19,7 +19,6 @@ class RaceSimulation(gym.Env):
         self.observation_space = spaces.Box(self.low, self.high, dtype=np.int)
         
         #* Action space
-        # TODO: use the Action space parameters from the main config
         self.action_space = spaces.Discrete(4)
 
         #* Agent car
@@ -108,14 +107,15 @@ class RaceSimulation(gym.Env):
             # TODO: add "grid" field containing all participant.log values!
         }
 
-        # increasing lap count
-        self.race_lap += 1
 
         # logging
         Helper.global_logging(self.config['LOGGING']['SIMULATION'], "LAP", "\nSimulating Lap [bold]#{}[/bold]".format(self.race_lap))
         Helper.global_logging(self.config['LOGGING']['AGENT'], "ACTIONS", "[yellow]Agent took action {}, got {} in reward and moved {} positions[/yellow]\n".format(agent_action, reward, (self.agent_car.car.lastLap_position - self.agent_car.car.race_position) ))
         if self.config['LOGGING']['SIMULATION']['GRID_POSITIONS']: # logging table of all participant timings for this lap
             Logging.log_lap_timings(self.race_lap, self.race_grid)
+
+        # increasing lap count
+        self.race_lap += 1
 
         # * returning required fields for this step
         return obs, reward, done, info

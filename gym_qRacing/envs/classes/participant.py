@@ -104,10 +104,13 @@ class Participant:
 
         if self.participant_id != "Agent" and self.car_fuelMass < 30 or self.car_tireDeg > 80:
             #print("pitstop in lap #", current_raceLap)
-            self.car_pitStops.append([current_raceLap, 8])
+            if not [current_raceLap, 8] in self.car_pitStops:
+                self.car_pitStops.append([current_raceLap, 8])
 
             return True
-        elif self.participant_id != "Agent" and len(self.car_pitStops) > 0:
+            
+        
+        if self.participant_id != "Agent" and len(self.car_pitStops) > 0:
             if current_raceLap-1 == self.car_pitStops[len(self.car_pitStops)-1][0]:
                 #print("outlap in lap #", current_raceLap)
                 return True

@@ -46,6 +46,7 @@ def simulate():
 
             # Do action and get result
             next_state, reward, done, _ = env.step(action)
+            print(_)
             total_reward += reward
 
 
