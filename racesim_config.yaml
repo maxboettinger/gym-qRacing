@@ -20,15 +20,15 @@ QLEARNING:
 
 #! configure race simulation
 RACESIMULATION:
-  RACE_LENGTH: 6
+  RACE_LENGTH: 28
   RACE_GRIDSIZE: 15
   RACE_INITFUELMASS: 50.0
 
 #! configure models
 MODELS:
   PITSTOP:
-    TIMELOSS_TRAVELIN: 1030.0
-    TIMELOSS_TRAVELOUT: 1045.0
+    TIMELOSS_TRAVELIN: 30.0
+    TIMELOSS_TRAVELOUT: 45.0
     STANDINGTIME_FREE: 25.0
     STANDINGTIME_REGULATION: # TODO: integrate mandatory times from regulation
       - none
@@ -58,6 +58,6 @@ LOGGING:
 
   AGENT:
     ACTIONS: false # log the action taken by the agent and the calculated reward after each lap
-    RESULTS: false # this displays the agents results (race_position, total_reward) after each episode
+    RESULTS: true # this displays the agents results (race_position, total_reward) after each episode
 
-  DUMP: false # this will dump verbose logs of all participants after each episode
+  DUMP: true # this will dump verbose logs of all participants after each episode

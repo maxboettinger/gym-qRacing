@@ -126,16 +126,17 @@ class model_lap():
         # ? only for last sector (+ first of following lap) and only, if participant chose to stop!
         penalty_pitStop = 0
 
+        #! this needs to be reworked! does not work correctly!!!
         if is_pitting:
             # check if its the inlap or outlap of the pitstop
             if sector.sector_id == "S5" and race_lap == participant.car_pitStops[len(participant.car_pitStops)-1][0]:
                 # its the inlap, apply timeLoss_travelIn and standingTime
                 penalty_pitStop = self.config['MODELS']['PITSTOP']['TIMELOSS_TRAVELIN'] + self.config['MODELS']['PITSTOP']['STANDINGTIME_FREE']
-                print("s5")
+                #print("s5")
             elif sector.sector_id == "S1" and race_lap == (participant.car_pitStops[len(participant.car_pitStops)-1][0]+1):
                 # its the outlap, only apply travelOutTime
                 penalty_pitStop = self.config['MODELS']['PITSTOP']['TIMELOSS_TRAVELOUT']
-                print("s1")
+                #print("s1")
 
 
         #* the actual sector time calculation
