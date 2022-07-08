@@ -2,7 +2,7 @@
 QLEARNING:
   REWARD_FUNCTION: # TODO: somehow store a function to use
     - none
-  ENV_EPISODES: 1
+  ENV_EPISODES: 3000
   ENV_MAXTRY: 1000
   ENV_EPSILON: 1
   ENV_EPSILONDECAY: 0.999
@@ -60,4 +60,4 @@ LOGGING:
     ACTIONS: false # log the action taken by the agent and the calculated reward after each lap
     RESULTS: true # this displays the agents results (race_position, total_reward) after each episode
 
-  DUMP: true # this will dump verbose logs of all participants after each episode
+  DUMP: false # this will dump verbose logs of all participants after each episode
