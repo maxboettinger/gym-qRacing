@@ -65,8 +65,6 @@ def simulate():
 
             # Setup for the next episode iteration
             state = next_state
-
-            print(_info)
             
             # Check if episode is finished
             if done or t >= config["QLEARNING"]["ENV_MAXTRY"] - 1:

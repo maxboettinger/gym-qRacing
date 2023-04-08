@@ -130,6 +130,7 @@ class Participant:
                 'wear_fuelCon': 0.0,
                 "current_tireDeg": self.car_tireDeg,
                 "current_fuelMass": self.car_fuelMass,
+                "current_racePosition": self.race_position,
                 "agent_action": None
             }
 
