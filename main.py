@@ -4,6 +4,9 @@ import gym
 import yaml
 from gym_qRacing.envs.functions import Helper
 
+# temp
+import warnings
+warnings.filterwarnings("ignore")
 
 # initializing global logging lists
 log_episodes = []
@@ -31,9 +34,17 @@ def simulate():
 
         # initialize environment
         state_tuple = env.reset()
-        state = state_tuple[0]
+        state, info = state_tuple
         total_reward = 0
         t_loss = 0
+
+        """
+        print("state_tuple: ", state_tuple)
+        print("state_tuple[0]: ", state_tuple[0])
+        print("state_tuple[1]: ", state_tuple[1])
+        print("state", state)
+        print("info", info)
+        """
 
         # AI tries up to env_config["env_maxTry"] times
         for t in range(config["QLEARNING"]["ENV_MAXTRY"]):
@@ -46,10 +57,12 @@ def simulate():
                 action = np.argmax(q_table[state])
 
             # Do action and get result
-            next_state_tuple, reward, done, _ = env.step(action)
-            next_state = next_state_tuple[0]
-            #print(_)
+            next_state, reward, done, _info = env.step(action)
+            #next_state = next_state_tuple[0]
             total_reward += reward
+
+            #! temp
+            print(_info)
 
 
             # Get correspond q value from state, action pair
@@ -72,13 +85,14 @@ def simulate():
                 if episode_counter % config["LOGGING"]['EPISODE_INTERVAL'] == 0:
                     # log results to output
                     if config['LOGGING']['AGENT']['RESULTS']:
+                        #print(_info)
                         Helper.global_logging(config["LOGGING"], "ENVIRONMENT", "\n[bold blue]Agent results of episode #{}[/bold blue]".format(episode+1))
-                        print("Position: %i \nReward: %f\n" % (state[0], total_reward))
+                        print("Position: %i \nReward: %f\n" % (_info["agent"]["position"], total_reward))
 
                     # save results to logging list
                     log_loss.append([episode_counter, t_loss])
                     log_reward.append([episode_counter, total_reward])
-                    log_result.append([episode_counter, state[0]])
+                    #log_result.append([episode_counter, info[0]])
                     
                 episode_counter += 1
                 break

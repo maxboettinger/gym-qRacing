@@ -12,6 +12,7 @@ class RaceSimulation(gym.Env):
     def __init__(self, config): # the passed "config" parameter is defined in the initialization of the environment (eg. notebook)
         #* Global config
         self.config = config
+        self.info = {}
 
         #* Observation space (from config .yaml)
         self.low = np.array([config['QLEARNING']['ENV_OBSERVATION_LOW'][0], config['QLEARNING']['ENV_OBSERVATION_LOW'][1]], dtype=np.int)
@@ -42,7 +43,7 @@ class RaceSimulation(gym.Env):
     #
     # * this function (re)initializes the simulation. 
     #
-    def reset(self):
+    def reset(self, seed=None, options={}):
         # logging
         Helper.global_logging(self.config['LOGGING'], "ENVIRONMENT", "\n[bold red]Initializing simulation...[/bold red]\n")
         
@@ -75,7 +76,7 @@ class RaceSimulation(gym.Env):
 
         # * generating and returning initial observation
         obs = self.observe()
-        return obs
+        return obs, self.info
 
 
     #
@@ -107,6 +108,9 @@ class RaceSimulation(gym.Env):
             # TODO: add "grid" field containing all participant.log values!
         }
 
+        # saving to global variable
+        self.info = info
+
 
         # logging
         Helper.global_logging(self.config['LOGGING']['SIMULATION'], "LAP", "\nSimulating Lap [bold]#{}[/bold]".format(self.race_lap))
@@ -132,7 +136,7 @@ class RaceSimulation(gym.Env):
             int(getattr(self.agent_car.car, self.config['QLEARNING']['ENV_OBSERVATION_FIELDS'][1]))
         )
 
-        return (observation, {})
+        return observation
 
 
     #

@@ -1,5 +1,6 @@
 *.egg-info
 dist
+build
 logs
 
 gym_qRacing/**/__pycache__

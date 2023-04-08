@@ -58,6 +58,6 @@ LOGGING:
 
   AGENT:
     ACTIONS: false # log the action taken by the agent and the calculated reward after each lap
-    RESULTS: true # this displays the agents results (race_position, total_reward) after each episode
+    RESULTS: false # this displays the agents results (race_position, total_reward) after each episode
 
   DUMP: false # this will dump verbose logs of all participants after each episode

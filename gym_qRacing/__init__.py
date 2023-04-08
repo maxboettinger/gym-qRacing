@@ -1,5 +1,5 @@
 """gym_qRacing init module."""
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 from logging import NullHandler, getLogger
 
