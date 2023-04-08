@@ -21,7 +21,7 @@ class model_lap():
     # @return race_grid:[Participant] -> A updated list of Participant() instances, representing the new order of the grid
     #
     # TODO: integrate the "update_grid" + "update_wear" functions so they are called after each sector
-    def simulate_lap(self, race_lap, race_grid):
+    def simulate_lap(self, race_lap, race_grid, action):
 
         # * iterating over all sectors of the race track
         for idx_sector, sector in enumerate(self.race_track.sectors):
@@ -67,8 +67,9 @@ class model_lap():
                     "sector_data": {
                         "sector_time": sector_time,
                         "wear_tireDeg": tireDeg,
-                        "wear_fuelCon": fuelCon,
-                    }
+                        "wear_fuelCon": fuelCon
+                    },
+                    "agent_action": action
                 })
 
 

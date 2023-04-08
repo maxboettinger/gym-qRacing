@@ -6,7 +6,7 @@ setup()
 #
 # setup(
 #     name='gym_qRacing',
-#     version='0.0.6',
+#     version='0.0.9',
 #     description='OpenAI Gym Environment for MiniDungeons',
 #     url='https://github.com/maxboettinger/gym-qRacing',
 #     author='maxboettinger',

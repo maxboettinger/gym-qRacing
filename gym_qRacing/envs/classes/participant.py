@@ -127,7 +127,10 @@ class Participant:
                 "lap_time": 0.0,
                 "sectors": {},
                 'wear_tireDeg': 0.0, 
-                'wear_fuelCon': 0.0 
+                'wear_fuelCon': 0.0,
+                "current_tireDeg": self.car_tireDeg,
+                "current_fuelMass": self.car_fuelMass,
+                "agent_action": None
             }
 
 
@@ -138,6 +141,9 @@ class Participant:
 
             # update lap time
             self.log['laps'][log_dict['race_lap']]['lap_time'] = self.log['laps'][log_dict['race_lap']]['lap_time'] + log_dict['sector_data']['sector_time']
+
+            # set pitting flag
+            self.log['laps'][log_dict['race_lap']]['agent_action'] = log_dict['agent_action']
 
             # update total wear for this lap
             self.log['laps'][log_dict['race_lap']]['wear_tireDeg'] = self.log['laps'][log_dict['race_lap']]['wear_tireDeg'] + log_dict['sector_data']['wear_tireDeg']

@@ -87,7 +87,7 @@ class RaceSimulation(gym.Env):
         agent_action = self.agent_car.take_action(action, self.race_lap)
 
         # * 2 - simulating laps for all participants      
-        self.model_lap.simulate_lap(self.race_lap, self.race_grid)
+        self.model_lap.simulate_lap(self.race_lap, self.race_grid, action)
 
         # * 3 - Generate required return values
         obs = self.observe() # getting current state of environment
