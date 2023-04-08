@@ -38,13 +38,6 @@ def simulate():
         total_reward = 0
         t_loss = 0
 
-        """
-        print("state_tuple: ", state_tuple)
-        print("state_tuple[0]: ", state_tuple[0])
-        print("state_tuple[1]: ", state_tuple[1])
-        print("state", state)
-        print("info", info)
-        """
 
         # AI tries up to env_config["env_maxTry"] times
         for t in range(config["QLEARNING"]["ENV_MAXTRY"]):
@@ -61,12 +54,8 @@ def simulate():
             #next_state = next_state_tuple[0]
             total_reward += reward
 
-            #! temp
-            print(_info)
-
 
             # Get correspond q value from state, action pair
-            #print("action index {}".format(action))
             q_value = q_table[state][action]
             best_q = np.max(q_table[next_state])
             t_loss += (q_value - reward)
@@ -77,7 +66,7 @@ def simulate():
             # Setup for the next episode iteration
             state = next_state
 
-            
+            print(_info)
             
             # Check if episode is finished
             if done or t >= config["QLEARNING"]["ENV_MAXTRY"] - 1:

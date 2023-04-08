@@ -102,9 +102,12 @@ class RaceSimulation(gym.Env):
             "race_lap": self.race_lap,
             "agent": {
                 "action": action,
+                "reward": reward,
                 "position": self.agent_car.car.race_position,
                 "pitStop_cnt": len(self.agent_car.car.car_pitStops)
-            }
+            },
+            "observation": obs,
+            "participant_log": self.agent_car.car.log,
             # TODO: add "grid" field containing all participant.log values!
         }
 
