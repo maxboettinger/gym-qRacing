@@ -30,7 +30,8 @@ def simulate():
         Helper.global_logging(config["LOGGING"], "ENVIRONMENT", "\n[bold blue]Starting episode #{}[/bold blue]".format(episode+1))
 
         # initialize environment
-        state = env.reset()
+        state_tuple = env.reset()
+        state = state_tuple[0]
         total_reward = 0
         t_loss = 0
 
@@ -45,7 +46,8 @@ def simulate():
                 action = np.argmax(q_table[state])
 
             # Do action and get result
-            next_state, reward, done, _ = env.step(action)
+            next_state_tuple, reward, done, _ = env.step(action)
+            next_state = next_state_tuple[0]
             #print(_)
             total_reward += reward
 

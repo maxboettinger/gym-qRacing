@@ -126,7 +126,13 @@ class RaceSimulation(gym.Env):
     #
     def observe(self):
         # * read and return observation (defined in config.yaml)
-        return (int(getattr(self.agent_car.car, self.config['QLEARNING']['ENV_OBSERVATION_FIELDS'][0])), int(getattr(self.agent_car.car, self.config['QLEARNING']['ENV_OBSERVATION_FIELDS'][1])))
+        
+        observation = (
+            int(getattr(self.agent_car.car, self.config['QLEARNING']['ENV_OBSERVATION_FIELDS'][0])), 
+            int(getattr(self.agent_car.car, self.config['QLEARNING']['ENV_OBSERVATION_FIELDS'][1]))
+        )
+
+        return (observation, {})
 
 
     #
