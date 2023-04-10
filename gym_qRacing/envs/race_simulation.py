@@ -96,8 +96,8 @@ class RaceSimulation(gym.Env):
         # * 4 - checking if episode is terminal
         done = self.is_done() 
 
-        # creating info dict 
-        info = {
+        # saving to global variable
+        self.info = {
             "done": done,
             "race_lap": self.race_lap,
             "agent": {
@@ -111,9 +111,6 @@ class RaceSimulation(gym.Env):
             # TODO: add "grid" field containing all participant.log values!
         }
 
-        # saving to global variable
-        self.info = info
-
 
         # logging
         Helper.global_logging(self.config['LOGGING']['SIMULATION'], "LAP", "\nSimulating Lap [bold]#{}[/bold]".format(self.race_lap))
@@ -125,7 +122,7 @@ class RaceSimulation(gym.Env):
         self.race_lap += 1
 
         # * returning required fields for this step
-        return obs, reward, done, info
+        return obs, reward, done, self.info
 
 
     #
@@ -133,13 +130,10 @@ class RaceSimulation(gym.Env):
     #
     def observe(self):
         # * read and return observation (defined in config.yaml)
-        
-        observation = (
+        return (
             int(getattr(self.agent_car.car, self.config['QLEARNING']['ENV_OBSERVATION_FIELDS'][0])), 
             int(getattr(self.agent_car.car, self.config['QLEARNING']['ENV_OBSERVATION_FIELDS'][1]))
         )
-
-        return observation
 
 
     #
@@ -149,12 +143,6 @@ class RaceSimulation(gym.Env):
         # * check if all laps have been simulated
         if self.race_lap > self.race_length or self.agent_car.car.is_retired:
             Helper.global_logging(self.config['LOGGING']['SIMULATION'], "DONE", "[bold red]Simulation finished after {} lap(s)[/bold red]".format(self.race_lap-1))
-
-            # if enabled, dump JSON logs after each episode
-            if self.config['LOGGING']['DUMP']:
-                for idx_sector, participant in enumerate(self.race_grid):
-                    with open('./logs/'+participant.participant_id+'.json', 'w') as fout:
-                        json.dump(participant.log, fout)
             return True
         
         # * otherwise, keep simulating the race
