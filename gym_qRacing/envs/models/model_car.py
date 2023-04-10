@@ -1,4 +1,5 @@
 from ..functions import Helper
+import math
 
 class model_car():
     #
@@ -20,7 +21,7 @@ class model_car():
     # ? could be expressed as logarithmic function
     @staticmethod
     def calc_tireDeg(sector, participant):
-        tireDeg = sector.wear_tireDeg
+        tireDeg = sector.wear_tireDeg * math.log(participant.car_stintLength, 2)
 
         return tireDeg
 
@@ -30,7 +31,8 @@ class model_car():
     # TODO: implement real calculation model
     @staticmethod
     def calc_timeLoss_fuelMass(participant, sector):
-        timeLoss_fuelMass = sector.timeLoss_fuelMass * participant.car_fuelMass
+        timeLoss_fuelMass = sector.timeLoss_fuelMass * (participant.car_fuelMass/2)
+
 
         return timeLoss_fuelMass
 
@@ -41,7 +43,8 @@ class model_car():
     # TODO: implement real calculation model
     @staticmethod
     def calc_timeLoss_tireDeg(participant, sector):
-        timeLoss_tireDeg = sector.timeLoss_tireDeg * participant.car_tireDeg
+        timeLoss_tireDeg = sector.timeLoss_tireDeg * math.log(participant.car_tireDeg+1)
+
 
         return timeLoss_tireDeg
 

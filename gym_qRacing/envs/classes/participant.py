@@ -9,6 +9,7 @@ class Participant:
         self.car_fuelMass = car_fuelMass
         self.car_tireDeg = 0
         self.car_pitStops = []
+        self.car_stintLength = 1
 
 
         # * race parameters
@@ -65,6 +66,9 @@ class Participant:
         # updating race_time
         self.race_time += sector_time
 
+        # ! this should not be here... Updating stint length
+        self.car_stintLength += 1
+
         # TODO: also update lap_time for log dict!
 
 
@@ -102,7 +106,7 @@ class Participant:
                 #print("outlap in lap #", current_raceLap)
                 return True
 
-        if self.participant_id != "Agent" and self.car_fuelMass < 30 or self.car_tireDeg > 80:
+        if self.participant_id != "Agent" and self.car_fuelMass < 15 or self.car_tireDeg > 80:
             #print("pitstop in lap #", current_raceLap)
             if not [current_raceLap, 8] in self.car_pitStops:
                 self.car_pitStops.append([current_raceLap, 8])

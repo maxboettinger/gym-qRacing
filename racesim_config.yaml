@@ -20,9 +20,9 @@ QLEARNING:
 
 #! configure race simulation
 RACESIMULATION:
-  RACE_LENGTH: 15
+  RACE_LENGTH: 27
   RACE_GRIDSIZE: 15
-  RACE_INITFUELMASS: 50.0
+  RACE_INITFUELMASS: 100.0
 
 #! configure models
 MODELS:
@@ -51,7 +51,7 @@ LOGGING:
     DONE: false # logs that the done() function returned true
     LAP: false # this logs the currently simulated lap count before each lap simulation
     SECTOR: false # this logs the currently simulated sector count before each sector simulation
-    GRID_POSITIONS: false # logging a table of lap+sector timings after each lap
+    GRID_POSITIONS: true # logging a table of lap+sector timings after each lap
     GRID_GENERATION: false # logging a table of the grid after generation
     POSITION_CHANGES: false
     OVERTAKES: false # this will print every overtake

@@ -29,7 +29,12 @@ class Model_PitStop(object):
 
         #print(participant.participant_id, " is pitting!")
 
+        participant.car_stintLength = 1
         participant.car_tireDeg = 0
-        participant.car_fuelMass = action * 10.0 #! this should not be static!!!!
+        participant.car_fuelMass = participant.car_fuelMass + (action * 10.0) #! this should not be static!!!!
+
+        # ! fuel tank capacity should be derived from config
+        if participant.car_fuelMass > 100:
+            participant.car_fuelMass = 100
         return False 
 
